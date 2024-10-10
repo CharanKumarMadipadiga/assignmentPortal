@@ -14,6 +14,12 @@ const assignmentSchema = new mongoose.Schema({
     admin: {
         type: String,
         required: true
+    },
+
+    status: {
+        type: String,
+        enum: ['pending', 'accepted', 'rejected'],
+        default: 'pending'
     }
 }, {
     timestamps: true

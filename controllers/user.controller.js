@@ -66,7 +66,7 @@ const loginController = async (req, res) => {
             return res.status(400).json({message: "password is incorrect"})
         }
 
-        const token = await jwt.sign({user: user._id, username: user.username}, `${process.env.JWT_SECRET}`, {expiresIn: '2h'})
+        const token = await jwt.sign({user: user._id, username: user.username, role: user.role}, `${process.env.JWT_SECRET}`, {expiresIn: '2h'})
 
 
         res.status(200).json({message: "User loggedin successfully", token})
@@ -92,9 +92,9 @@ const uploadAssignmentController = async (req, res) => {
             return res.status(400).json({message: "admin not found"})
         }
 
-        console.log("authUser", req.user)
+        // console.log("authUser", req.user)
         const newAssignment = new Assignment({
-            username: req.user.username,
+            username: req.userObj.username,
             task,
             admin: admin_user.username
         })
@@ -116,13 +116,13 @@ const uploadAssignmentController = async (req, res) => {
 const getAllAdmins = async (req, res) => {
     try {
 
-        const authUser = req.user.id 
+        const authUser = req.userObj.id 
 
         if(!authUser) {
             return res.status(404).json({message: "Not authorized"});
         }
         
-        const adminsList = await Admin.find().select('-password -assignment -role');
+        const adminsList = await Admin.find().select('-password -assignments -role');
         res.status(200).json({data: adminsList})
 
     } catch (error) {

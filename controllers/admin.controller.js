@@ -1,6 +1,7 @@
 const Admin = require('../models/admin.model.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Assignment = require('../models/assignment.model.js');
 const registerController = async (req, res) => {
 
     try {
@@ -60,7 +61,7 @@ const loginController = async (req, res) => {
             return res.status(400).json({message: "password is incorrect"})
         }
 
-        const token = await jwt.sign({admin: admin._id}, `${process.env.SECRET_TOKEN}`, {expiresIn: '10h'})
+        const token = await jwt.sign({user: admin._id, username: admin.username, role: admin.role}, `${process.env.JWT_SECRET}`, {expiresIn: '10h'})
 
 
         res.status(200).json({message: "Admin loggedin successfully", token})
@@ -71,5 +72,42 @@ const loginController = async (req, res) => {
     }
 }
 
+const getAssignmentsController = async (req, res) => {
+    try {
+        const assignmentsList = await Admin.findById(req.userObj.id).select('assignments').populate('assignments');
+        return res.status(200).json({data: assignmentsList});
+    } catch (error) {
+        console.log("error in fetching assignments");
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
 
-module.exports = {registerController, loginController}
+
+const acceptAssignmentController = async (req, res) => {
+    const {id} = req.params
+    console.log("params", id)
+    try {
+        const assignment = await Assignment.findByIdAndUpdate(id, {status: 'accepted'}, {new: true})
+        return res.status(201).json({message: "Assignment accepted successfully", data: assignment});
+
+    } catch (error) {
+        console.log("error in accepting assignment");
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
+
+
+const rejectAssignmentController = async (req, res) => {
+    const {id} = req.params
+
+    try {
+        const assignment = await Assignment.findByIdAndUpdate(id, {status: 'rejected'}, {new: true})
+        return res.status(201).json({message: "Assignment rejected successfully", data: assignment});
+
+    } catch (error) {
+        console.log("error in rejecting assignment");
+        return res.status(500).json({message: "Internal Server Error"});
+    }
+}
+
+module.exports = {registerController, loginController, getAssignmentsController, acceptAssignmentController, rejectAssignmentController}
