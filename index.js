@@ -23,7 +23,7 @@ app.use("/admin", adminRouter)
 
 connectDatabase()
 .then(() => {
-    app.listen(process.env.PORT, () => {
+    app.listen(process.env.PORT || 5000, () => {
         console.log(`Server Running at localhost:${process.env.PORT}`)
     })
 })
