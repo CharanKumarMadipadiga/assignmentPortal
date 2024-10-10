@@ -1,4 +1,4 @@
-### Assignment Submission Portal
+# Assignment Submission Portal
 This project is a backend system for an Assignment Submission Portal, where users can upload assignments and admins can accept or reject them.
 
 
@@ -7,13 +7,13 @@ Develop a backend system that supports two types of users: Users and Admins. Use
 
 
 ## Features
-# Users:
+### Users:
 Register and login.
 Upload assignments.
 Fetch a list of available admins.
 
 
-# Admins:
+### Admins:
 Register and login.
 View all assignments tagged to them.
 Accept or reject assignments.
@@ -21,7 +21,7 @@ View assignment details, including username, task, and timestamp.
 
 
 ## API Endpoints
-# User Endpoints
+### User Endpoints
 POST /user/register
 Register a new user.
 
@@ -35,7 +35,7 @@ GET /user/admins
 Fetch a list of all admins.
 
 
-# Admin Endpoints
+### Admin Endpoints
 POST /admin/register
 Register a new admin.
 
@@ -87,7 +87,7 @@ NPM: Package manager for installing dependencies.
 
 
 ## API Usage
-# User Registration Example
+### User Registration Example
 Endpoint: POST /user/register
 payload: {
   "firstName": "John",
@@ -97,14 +97,14 @@ payload: {
   "role": "user or admin"
 }
 
-# User Login Example
+### User Login Example
 Endpoint: POST /user/login
 payload: {
   "username": "johndoe",
   "password": "your_password"
 }
 
-# User upload assignment api Example
+### User upload assignment api Example
 Endpoint: POST /user/upload           // uploads assignment   (token is required)   place the token in headers
 payload: {
   
@@ -112,18 +112,18 @@ payload: {
   "admin": "admin username"
 }
 
-# Fetching all admins
+### Fetching all admins
 Endpoint: GET /user/admins           // retrieves all admins  (token is required)   place the token in headers
 
 
-# Admin Registration and Login
+### Admin Registration and Login
 Same as user registration and login
 
 
-# Fetching all assignments of admin
+### Fetching all assignments of admin
 Endpoint: GET /admin/assignments     // retrieves all assignments of logged in admin (token is required)   place the token in headers
 
-# Admin Accept or Reject Assignment Example
+### Admin Accept or Reject Assignment Example
 Endpoint: POST /admin/assignments/:id/accept     // will accept the assignment     here id is assignment id
 Endpoint: POST /admin/assignments/:id/reject     // will reject the assignment     here id is assignment id
 
